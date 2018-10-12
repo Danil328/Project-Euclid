@@ -1,0 +1,5 @@
+md5: a605c17d6eaa107684a21e8d5bbc1e85
+outs:
+- cache: true
+  md5: 2c2e5b8de9fbd0daa9bec3adfd672a1a.dir
+  path: test
