@@ -1,5 +1,6 @@
 import gc
 import os
+import warnings
 import pandas as pd
 from keras import optimizers
 from data import create_stratified_validation, get_augmentations, DataGenerator
@@ -8,27 +9,14 @@ from utils import take_image_names, callbacks_factory
 from models import make_model
 from losses import bce_jaccard_loss
 from metrics import map_at_different_iou, hard_jaccard_coef
+from params import args
 
-import matplotlib.pyplot as plt
-
-FOLDS = 6
-IS_TEST = True
-STRATIFIED_BY='all'
-RANDOM_STATE = 17
-EPOCHS = 15
-
-NETWORK = 'vanilla_unet'
-WITH_SIGMOID = True
-WITH_WEIGHTS = True
-HEIGHT = 100
-WIDTH = 100
-INPUT_PADDING = 184
-BATCH_SIZE = 12
+warnings.filterwarnings('ignore')
 
 
 def main():
-    folds_df = create_stratified_validation(n_folds=FOLDS, stratified_by=STRATIFIED_BY)
-    folds_iterations = get_folds_iterations(FOLDS - 1) if IS_TEST else get_folds_iterations(FOLDS)
+    folds_df = create_stratified_validation(n_folds=args.folds, stratified_by=args.stratified_by)
+    folds_iterations = get_folds_iterations(args.folds - 1) if args.is_test else get_folds_iterations(args.folds)
     images_dict, masks_dict = read_train_data_to_memory()
 
     for train_folds, valid_fold in folds_iterations:
@@ -37,36 +25,36 @@ def main():
             masks_dict,
             image_names=take_image_names(folds_df, train_folds),
             augmentations=get_augmentations(),
-            batch_size=BATCH_SIZE,
-            shape=(HEIGHT, WIDTH),
-            input_padding=INPUT_PADDING
+            batch_size=args.batch_size,
+            shape=(args.height, args.width),
+            input_padding=args.input_padding
         )
         valid_generator = DataGenerator(
             images_dict,
             masks_dict,
             image_names=take_image_names(folds_df, valid_fold),
-            batch_size=BATCH_SIZE,
-            shape=(HEIGHT, WIDTH),
-            input_padding=INPUT_PADDING
+            batch_size=args.batch_size,
+            shape=(args.height, args.width),
+            input_padding=args.input_padding
         )
 
         callbacks = callbacks_factory(
             callbacks_list=['best_model_checkpoint', 'early_stopping', 'tensorboard', 'csv_logger', 'learning_rate_scheduler'],
-            model_maskname='{0}_{1}_fold_{2}'.format('standard', NETWORK, valid_fold[0]),
+            model_maskname='{0}_{1}_fold_{2}'.format('standard', args.network, valid_fold[0]),
             monitor='val_map_at_different_iou'
         )
 
-        height = HEIGHT + INPUT_PADDING if INPUT_PADDING else HEIGHT
-        width = WIDTH + INPUT_PADDING if INPUT_PADDING else WIDTH
+        height = args.height + args.input_padding if args.input_padding else args.height
+        width = args.width + args.input_padding if args.input_padding else args.width
         model = make_model(
-            network=NETWORK,
+            network=args.network,
             input_shape=(height, width, 3),
             with_sigmoid=True,
-            random_state=RANDOM_STATE
+            random_state=args.random_state
         )
 
-        if WITH_WEIGHTS:
-            weights_pathway = '../../data/intermediate/{0}_weights.h5'.format(NETWORK)
+        if args.with_weights:
+            weights_pathway = '../../data/intermediate/{0}_weights.h5'.format(args.network)
             print('Loading weights from {0}'.format(weights_pathway))
             model.load_weights(weights_pathway, by_name=True)
         else:
@@ -79,7 +67,7 @@ def main():
 
         model.fit_generator(
             train_generator,
-            epochs=EPOCHS,
+            epochs=args.epochs,
             callbacks=callbacks,
             validation_data=valid_generator,
             verbose=1,
@@ -87,17 +75,17 @@ def main():
             use_multiprocessing=False,
         )
 
-        if IS_TEST:
+        if args.is_test:
             test_generator = DataGenerator(
                 images_dict,
                 masks_dict,
-                image_names=take_image_names(folds_df, [FOLDS - 1]),
-                batch_size=BATCH_SIZE,
-                shape=(HEIGHT, WIDTH),
-                input_padding=INPUT_PADDING
+                image_names=take_image_names(folds_df, [args.folds - 1]),
+                batch_size=args.batch_size,
+                shape=(args.height, args.width),
+                input_padding=args.input_padding
             )
             results = model.evaluate_generator(test_generator)
-            results_pathway = '../../logs/test_evaluation_{0}_fold_{1}.csv'.format(NETWORK, valid_fold[0])
+            results_pathway = '../../logs/test_evaluation_{0}_fold_{1}.csv'.format(args.network, valid_fold[0])
             pd.DataFrame({
                 'MetricsNames': model.metrics_names,
                 'Results': results
