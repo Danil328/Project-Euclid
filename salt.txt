@@ -1,0 +1,110 @@
+
+
+* стратификаци€ по глубине, salt coverage, количеству пустых изображений
+	З https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
+	З https://www.kaggle.com/drn01z3/create-k-fold-splits-depths-stratified
+	З https://opendatascience.slack.com/archives/CBU0W7318/p1536831697000100
+
+* написать метрику дл€ iou:
+    З https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
+	З https://www.kaggle.com/pestipeti/explanation-of-scoring-metric
+
+* аугментации:
+	З флипы - горизонтальный зашел, вертикальный нет
+	З €ркость - аддитвна€ зашла
+	шифт
+	скейл
+	“ранспонирование и вертикальные флипы делают сильно хуже. поворот до 10 градусов
+	ShiftScaleRotate, RandomSizedCrop, Elastic, GridDistortion, Brightness, Gamma, Contrast Blur, Noise.
+
+* написать оптимизацию трешхолда
+
+* iou метрика
+	https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/63044#379515
+	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
+	https://www.kaggle.com/jesperdramsch/intro-to-seismic-salt-and-how-to-geophysics
+	https://www.kaggle.com/tcapelle/tgs-fastai-resnet34-unet
+	https://www.kaggle.com/jcesquiveld/tgs-vanilla-u-net-baseline
+	https://www.kaggle.com/iezepov/fast-iou-scoring-metric-in-pytorch-and-numpy/
+
+
+* multitask_learning 2 входа, 2 выхода или как доп классификаци€ или глубина как доп канал
+ 	https://www.kaggle.com/bguberfain/unet-with-depth
+	https://opendatascience.slack.com/archives/CBU0W7318/p1537232652000100
+	https://opendatascience.slack.com/archives/CBU0W7318/p1537472486000100
+* тта
+
+* whitening
+
+* что-то делать с false positives
+
+* deep supervision
+
+* тренировка с и без пустых изображений	
+	https://opendatascience.slack.com/archives/CBU0W7318/p1538473901000100
+
+* что-то сделать с вертикальными масками - оставить, там примерна€ разметка
+
+* learning rate:
+    https://opendatascience.slack.com/archives/CBU0W7318/p1539127271000100
+
+* без bn в декодере
+
+* сеисмический cumsum
+	https://www.kaggle.com/bguberfain/unet-with-depth
+	https://opendatascience.slack.com/archives/CBU0W7318/p1534251477000100
+
+* лаваш лосс, фокал лосс
+	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
+	http://openaccess.thecvf.com/content_cvpr_2018/html/Berman_The_LovaSz-Softmax_Loss_CVPR_2018_paper.html
+	https://arxiv.org/abs/1705.08790
+	http://bmax.im/LovaszSoftmax
+	сначала юзать bce потом лаваш
+	https://opendatascience.slack.com/archives/CBU0W7318/p1536827660000100
+
+	https://www.kaggle.com/alexanderliao/u-net-bn-aug-strat-focal-loss-fixed
+
+* архитектуры vanilla unet, resnet34 unet -inceptionv3 wider38
+	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks	
+	https://www.kaggle.com/meaninglesslives/using-resnet50-pretrained-model-in-keras
+	https://www.kaggle.com/meaninglesslives/unet-resnet34-in-keras
+
+	https://github.com/keras-team/keras-applications/releases
+
+* hypercolumn, Spatial and Channel Squeeze & Excitation Block 
+	https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/64645
+	https://opendatascience.slack.com/archives/CBU0W7318/p1537182266000100
+	https://opendatascience.slack.com/archives/CBU0W7318/p1538906963000100
+
+* CRF
+	https://www.kaggle.com/meaninglesslives/apply-crf
+	https://www.kaggle.com/divrikwicky/u-net-with-simple-resnet-blocks-forked
+	https://www.kaggle.com/meaninglesslives/apply-crf-unet-resnet
+	https://opendatascience.slack.com/archives/CBU0W7318/p1538232375000100
+
+* удаление мелких точек:
+	https://opendatascience.slack.com/archives/CBU0W7318/p1536225344000100
+
+
+* attention
+	https://opendatascience.slack.com/archives/CBU0W7318/p1538912297000100
+
+
+* hard negative mining
+
+https://opendatascience.slack.com/archives/CBU0W7318/p1537195790000100
+https://opendatascience.slack.com/archives/CBU0W7318/p1532352206000505
+https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/61949
+https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65347
+https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65226 https://opendatascience.slack.com/archives/CBU0W7318/p1536574962000100
+https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/66568
+https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/66686
+https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/64776#387317
+https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
+
+
+
+
+bdce_dice_loss ~0.72
+
+
