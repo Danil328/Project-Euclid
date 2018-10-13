@@ -14,6 +14,7 @@ class DataGenerator(Sequence):
             augmentations=None,
             batch_size=32,
             shape=(101, 101),
+            channels=1,
             input_padding=None,
             shuffle=True):
 
@@ -23,6 +24,7 @@ class DataGenerator(Sequence):
         self.augmentations = augmentations
         self.batch_size = batch_size
         self.shape = shape
+        self.channels=channels
         self.input_padding = input_padding
         self.shuffle = shuffle
 
@@ -42,25 +44,36 @@ class DataGenerator(Sequence):
         else:
             input_shape = self.shape
 
-        batch_x = np.empty((self.batch_size, *input_shape, 3), dtype=np.uint8)
+        batch_x = np.empty((self.batch_size, *input_shape, self.channels), dtype=np.uint8)
         batch_y = np.empty((self.batch_size, *self.shape, 1), dtype=np.uint8)
 
         for i, image_name in enumerate(batch_image_names):
             image = self.images_dict[image_name]
-            mask = self.masks_dict[image_name][:, :, 0]
-            image = imresize(image, self.shape, interp='nearest')
+            if self.channels == 3:
+                image = imresize(image, self.shape, interp='nearest')
+                if self.input_padding:
+                    one_side_padding = int(self.input_padding / 2)
+                    image = pad(
+                        image,
+                        ((one_side_padding, one_side_padding), (one_side_padding, one_side_padding), (0, 0)),
+                        mode='reflect'
+                    )
+                batch_x[i, ...] = image
+            else:
+                image = image[..., 0]
+                image = imresize(image, self.shape, interp='nearest')
+                if self.input_padding:
+                    one_side_padding = int(self.input_padding / 2)
+                    image = pad(
+                        image,
+                        ((one_side_padding, one_side_padding), (one_side_padding, one_side_padding)),
+                        mode='reflect'
+                    )
+                batch_x[i, :, :, 0] = image
+
+            mask = self.masks_dict[image_name][..., 0]
             mask = imresize(mask, self.shape, interp='nearest')
-
-            if self.input_padding:
-                one_side_padding = int(self.input_padding / 2)
-                image = pad(
-                    image,
-                    ((one_side_padding, one_side_padding), (one_side_padding, one_side_padding), (0, 0)),
-                    mode='reflect'
-                )
-            mask = binarize(mask, 255. / 2)
-
-            batch_x[i, ...] = image
+            mask = binarize(mask, 256 / 2)
             batch_y[i, :, :, 0] = mask
 
         if self.augmentations:

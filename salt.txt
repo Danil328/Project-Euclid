@@ -17,6 +17,9 @@
 	“ранспонирование и вертикальные флипы делают сильно хуже. поворот до 10 градусов
 	ShiftScaleRotate, RandomSizedCrop, Elastic, GridDistortion, Brightness, Gamma, Contrast Blur, Noise.
 
+* фокал лосс
+    З https://www.arxiv-vanity.com/papers/1708.02002/
+
 * написать оптимизацию трешхолда
 
 * iou метрика
@@ -40,6 +43,9 @@
 
 * deep supervision
 
+* pseudo labeling и jigsaw puzzle
+    https://opendatascience.slack.com/archives/CBU0W7318/p1539420604000100
+
 * тренировка с и без пустых изображений	
 	https://opendatascience.slack.com/archives/CBU0W7318/p1538473901000100
 
@@ -54,7 +60,7 @@
 	https://www.kaggle.com/bguberfain/unet-with-depth
 	https://opendatascience.slack.com/archives/CBU0W7318/p1534251477000100
 
-* лаваш лосс, фокал лосс
+* лаваш лосс
 	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
 	http://openaccess.thecvf.com/content_cvpr_2018/html/Berman_The_LovaSz-Softmax_Loss_CVPR_2018_paper.html
 	https://arxiv.org/abs/1705.08790

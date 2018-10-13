@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from models import make_model
-from utils import read_by_pyvips
+from helpers import read_by_pyvips
 from scipy.misc import imresize
 from skimage.util import pad
 from tqdm import tqdm

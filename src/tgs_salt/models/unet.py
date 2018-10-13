@@ -1,11 +1,11 @@
 from keras.models import Input, Model
-from keras.layers import BatchNormalization, Activation
+from keras.layers import BatchNormalization
 from keras.layers import Conv2D, MaxPooling2D, Conv2DTranspose, Cropping2D
 from keras.layers.merge import concatenate
 from keras.initializers import he_normal
 
 
-def vanilla_unet(input_shape, with_sigmoid, random_state):
+def vanilla_unet(input_shape, random_state):
     initializer = he_normal(random_state)
     activation = 'relu'
 
@@ -76,9 +76,7 @@ def vanilla_unet(input_shape, with_sigmoid, random_state):
     bn_22             = BatchNormalization(name='bn_22') (conv_u0b_c)
     conv_u0c_d        = Conv2D(64, (3, 3), padding='valid', activation=activation, name='conv_u0c-d', kernel_initializer=initializer) (bn_22)
     bn_24             = BatchNormalization(name='bn_24') (conv_u0c_d)
-    conv_u0d_score    = Conv2D(1, (1, 1), padding='valid', name='conv_u0d-score', kernel_initializer=initializer) (bn_24)
-    if with_sigmoid:
-        conv_u0d_score = Activation('sigmoid') (conv_u0d_score)
+    conv_u0d_score    = Conv2D(1, (1, 1), padding='valid', activation='sigmoid', name='conv_u0d-score', kernel_initializer=initializer) (bn_24)
 
     model = Model(inputs=inputs, outputs=conv_u0d_score, name='vanilla_unet')
 
