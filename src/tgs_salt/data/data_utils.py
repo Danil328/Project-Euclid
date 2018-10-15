@@ -3,6 +3,36 @@ import pandas as pd
 import numpy as np
 from helpers import read_by_pyvips
 from imgaug import augmenters as iaa
+from sklearn.decomposition import IncrementalPCA
+
+class ZCAWhitening(object):
+    def __init__(self, principal_components=None, means=None, zca_epsilon=10):
+        self.principal_components = principal_components
+        self.means = means
+        self.zca_epsilon = zca_epsilon
+
+    def fit(self, X):
+        incremental_pca = IncrementalPCA(n_components=X.shape[1], copy=False)
+        incremental_pca.fit(X)
+
+        u = incremental_pca.components_.transpose()
+        s = np.sqrt(incremental_pca.explained_variance_)
+        self.principal_components = u.dot(np.diag(1. / (s + self.zca_epsilon))).dot(u.transpose())
+        self.means = np.mean(X, axis=0)
+
+        return self
+
+    def transform(self, X):
+        X_centered = (X - self.means).transpose()
+        X_zca = self.principal_components.dot(X_centered).transpose()
+        X_zca_scaled = np.interp(X_zca, (X_zca.min(), X_zca.max()), (0, 255))
+
+        return X_zca_scaled
+
+def dict_to_vectors(dict):
+    tensor = np.array(list(dict.values()))
+    return tensor.reshape((-1, tensor.shape[1] * tensor.shape[2] * tensor.shape[3]))
+
 
 def get_augmentations():
     image_augmentations = iaa.Sequential([

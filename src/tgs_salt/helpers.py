@@ -1,7 +1,6 @@
 import os
 import pyvips
 import numpy as np
-from tqdm import tqdm
 
 
 def read_by_pyvips(path, grayscale=False):
@@ -34,7 +33,7 @@ def read_train_data_to_memory_separately(data_dir, channels):
     data_dict = dict()
     file_names = os.listdir(data_dir)
 
-    for file_name in tqdm(file_names):
+    for file_name in file_names:
         absolute_file_pathway = os.path.join(data_dir, file_name)
         if data_dir[-6:] == 'images':
             data = read_by_pyvips(absolute_file_pathway)

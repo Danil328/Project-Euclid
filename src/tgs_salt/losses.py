@@ -19,12 +19,6 @@ def focal_loss(y_true, y_pred, gamma=2, alpha=.75):
 
     return -K.mean(alpha * K.pow(1. - pt_1, gamma) * K.log(pt_1) + (1 - alpha) * K.pow(pt_0, gamma) * K.log(1. - pt_0))
 
-def bce_dice_loss(y_true, y_pred, dice=0.2, bce=0.8):
-    return bce * binary_crossentropy(y_true, y_pred) + dice * dice_loss(y_true, y_pred)
-
-def bce_jaccard_loss(y_true, y_pred, jaccard=0.2, bce=0.8):
-    return bce * binary_crossentropy(y_true, y_pred) + jaccard * dice_loss(y_true, y_pred)
-
 def dice_loss(y_true, y_pred):
     return 1 - soft_dice_coef(y_true, y_pred)
 
@@ -55,10 +49,28 @@ def make_loss(loss_name):
         return focal_loss
 
     elif loss_name == 'bce_dice_loss':
+        def bce_dice_loss(y_true, y_pred, dice=0.2, bce=0.8):
+            return bce * binary_crossentropy(y_true, y_pred) + dice * dice_loss(y_true, y_pred)
+
         return bce_dice_loss
 
     elif loss_name == 'bce_jaccard_loss':
+        def bce_jaccard_loss(y_true, y_pred, jaccard=0.2, bce=0.8):
+            return bce * binary_crossentropy(y_true, y_pred) + jaccard * jaccard_loss(y_true, y_pred)
+
         return bce_jaccard_loss
+
+    elif loss_name == 'focal_dice_loss':
+        def focal_dice_loss(y_true, y_pred, dice=0.2, focal=0.8):
+            return focal * focal_loss(y_true, y_pred) + dice * dice_loss(y_true, y_pred)
+
+        return focal_dice_loss
+
+    elif loss_name == 'focal_jaccard_loss':
+        def focal_jaccard_loss(y_true, y_pred, jaccard=0.2, focal=0.8):
+            return focal * focal_loss(y_true, y_pred) + jaccard * jaccard_loss(y_true, y_pred)
+
+        return focal_jaccard_loss
 
     elif loss_name == 'dice_loss':
         return dice_loss
