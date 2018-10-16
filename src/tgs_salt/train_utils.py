@@ -85,4 +85,4 @@ def make_optimizer(optimizer_name, learning_rate, decay):
         return SGD(lr=learning_rate, decay=float(decay), momentum=0.9, nesterov=True)
 
     else:
-        raise ValueError('Unknown optimizer')
+        raise NotImplementedError('Unknown optimizer')

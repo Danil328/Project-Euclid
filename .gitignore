@@ -62,5 +62,7 @@ fabric.properties
 .idea/httpRequests
 
 *.h5
+*.log
+*.csv
 .idea
 __pycache__/

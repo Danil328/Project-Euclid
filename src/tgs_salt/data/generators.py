@@ -11,7 +11,7 @@ class DataGenerator(Sequence):
             images_dict,
             masks_dict,
             image_names,
-            zca_whitening,
+            zca_whitening=None,
             augmentations=None,
             batch_size=32,
             input_shape=(101, 101),
@@ -51,7 +51,8 @@ class DataGenerator(Sequence):
         if self.augmentations:
             batch_x, batch_y = self._apply_augmentations(batch_x, batch_y)
 
-        batch_x = self._apply_zca_whitening(batch_x)
+        if self.zca_whitening:
+            batch_x = self._apply_zca_whitening(batch_x)
 
         batch_x_resized = np.empty((self.batch_size, *self.images_input_shape, self.channels), dtype=np.uint8)
         batch_y_resized = np.empty((self.batch_size, *self.masks_input_shape, 1), dtype=np.uint8)

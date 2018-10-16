@@ -2,7 +2,7 @@ import keras.backend as K
 import tensorflow as tf
 
 
-def binary_crossentropy(y_true, y_pred, alpha=.75):
+def binary_crossentropy(y_true, y_pred, alpha=.5):
     _epsilon = tf.convert_to_tensor(K.epsilon(), dtype=y_pred.dtype.base_dtype)
     y_pred = tf.clip_by_value(y_pred, _epsilon, 1 - _epsilon)
 
@@ -11,7 +11,7 @@ def binary_crossentropy(y_true, y_pred, alpha=.75):
 
     return -K.mean(alpha * K.log(pt_1) + (1 - alpha) * K.log(1. - pt_0))
 
-def focal_loss(y_true, y_pred, gamma=2, alpha=.75):
+def focal_loss(y_true, y_pred, gamma=2, alpha=.5):
     _epsilon = tf.convert_to_tensor(K.epsilon(), dtype=y_pred.dtype.base_dtype)
     y_pred = tf.clip_by_value(y_pred, _epsilon, 1 - _epsilon)
     pt_1 = tf.where(K.equal(y_true, 1), y_pred, K.ones_like(y_pred))
@@ -49,25 +49,25 @@ def make_loss(loss_name):
         return focal_loss
 
     elif loss_name == 'bce_dice_loss':
-        def bce_dice_loss(y_true, y_pred, dice=0.2, bce=0.8):
+        def bce_dice_loss(y_true, y_pred, dice=0.5, bce=0.5):
             return bce * binary_crossentropy(y_true, y_pred) + dice * dice_loss(y_true, y_pred)
 
         return bce_dice_loss
 
     elif loss_name == 'bce_jaccard_loss':
-        def bce_jaccard_loss(y_true, y_pred, jaccard=0.2, bce=0.8):
+        def bce_jaccard_loss(y_true, y_pred, jaccard=0.5, bce=0.5):
             return bce * binary_crossentropy(y_true, y_pred) + jaccard * jaccard_loss(y_true, y_pred)
 
         return bce_jaccard_loss
 
     elif loss_name == 'focal_dice_loss':
-        def focal_dice_loss(y_true, y_pred, dice=0.2, focal=0.8):
+        def focal_dice_loss(y_true, y_pred, dice=0.5, focal=0.5):
             return focal * focal_loss(y_true, y_pred) + dice * dice_loss(y_true, y_pred)
 
         return focal_dice_loss
 
     elif loss_name == 'focal_jaccard_loss':
-        def focal_jaccard_loss(y_true, y_pred, jaccard=0.2, focal=0.8):
+        def focal_jaccard_loss(y_true, y_pred, jaccard=0.5, focal=0.5):
             return focal * focal_loss(y_true, y_pred) + jaccard * jaccard_loss(y_true, y_pred)
 
         return focal_jaccard_loss
@@ -79,4 +79,4 @@ def make_loss(loss_name):
         return jaccard_loss
 
     else:
-        ValueError('Unknown loss')
+        NotImplementedError('Unknown loss')

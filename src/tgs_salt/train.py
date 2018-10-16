@@ -14,55 +14,59 @@ warnings.filterwarnings('ignore')
 
 
 def main():
-    print('Creating validation')
-    folds_df = create_stratified_validation(args.n_folds, args.source_dir, args.stratified_by)
-    train_folds = get_train_folds(args.n_folds, args.test_mode, args.valid_fold)
-    print('Loading data')
-    images_dict, masks_dict = read_train_data_to_memory(args.train_dir, args.channels)
-    print('Fitting zca whitening')
-    zca_whitening = ZCAWhitening(zca_epsilon=args.zca_epsilon)
-    zca_whitening.fit(dict_to_vectors(images_dict))
+    # print('[INFO] Creating validation...')
+    # folds_df = create_stratified_validation(args.n_folds, args.source_dir, args.stratified_by)
+    # train_folds = get_train_folds(args.n_folds, args.test_mode, args.valid_fold)
+    #
+    # print('[INFO] Loading data...')
+    # images_dict, masks_dict = read_train_data_to_memory(args.train_dir, args.channels, cumsum=args.cumsum)
+    #
+    # zca_whitening = None
+    # if args.zca_whitening:
+    #     print('[INFO] Fitting zca whitening...')
+    #     zca_whitening = ZCAWhitening(zca_epsilon=args.zca_epsilon)
+    #     zca_whitening.fit(dict_to_vectors(images_dict))
+    #
+    # train_generator = DataGenerator(
+    #     images_dict,
+    #     masks_dict,
+    #     image_names=take_image_names(folds_df, train_folds),
+    #     zca_whitening=zca_whitening,
+    #     augmentations=get_augmentations(),
+    #     batch_size=args.batch_size,
+    #     input_shape=(args.height, args.width),
+    #     channels=args.channels,
+    #     input_padding=args.input_padding
+    # )
+    # valid_generator = DataGenerator(
+    #     images_dict,
+    #     masks_dict,
+    #     image_names=take_image_names(folds_df, [args.valid_fold]),
+    #     zca_whitening=zca_whitening,
+    #     batch_size=args.batch_size,
+    #     input_shape=(args.height, args.width),
+    #     channels=args.channels,
+    #     input_padding=args.input_padding
+    # )
+    #
+    # callbacks = callbacks_factory(
+    #     callbacks_list=[
+    #         'best_model_checkpoint',
+    #         'last_model_checkpoint',
+    #         'early_stopping',
+    #         'tensorboard',
+    #         'csv_logger',
+    #         'learning_rate_scheduler'
+    #     ],
+    #     model_maskname='{0}{1}_fold_{2}'.format(args.alias, args.network, args.valid_fold),
+    #     monitor=args.monitor,
+    #     monitor_mode=args.monitor_mode,
+    #     early_stopping_parience=args.early_stopping_patience,
+    #     models_dir=args.models_dir,
+    #     logs_dir=args.logs_dir
+    # )
 
-    train_generator = DataGenerator(
-        images_dict,
-        masks_dict,
-        image_names=take_image_names(folds_df, train_folds),
-        zca_whitening=zca_whitening,
-        augmentations=get_augmentations(),
-        batch_size=args.batch_size,
-        input_shape=(args.height, args.width),
-        channels=args.channels,
-        input_padding=args.input_padding
-    )
-    valid_generator = DataGenerator(
-        images_dict,
-        masks_dict,
-        image_names=take_image_names(folds_df, [args.valid_fold]),
-        zca_whitening=zca_whitening,
-        batch_size=args.batch_size,
-        input_shape=(args.height, args.width),
-        channels=args.channels,
-        input_padding=args.input_padding
-    )
-
-    callbacks = callbacks_factory(
-        callbacks_list=[
-            'best_model_checkpoint',
-            'last_model_checkpoint',
-            'early_stopping',
-            'tensorboard',
-            'csv_logger',
-            'learning_rate_scheduler'
-        ],
-        model_maskname='{0}{1}_fold_{2}'.format(args.alias, args.network, args.valid_fold),
-        monitor=args.monitor,
-        monitor_mode=args.monitor_mode,
-        early_stopping_parience=args.early_stopping_patience,
-        models_dir=args.models_dir,
-        logs_dir=args.logs_dir
-    )
-
-    print('Creating model')
+    print('[INFO] Creating model...')
     height = args.height + args.input_padding if args.input_padding else args.height
     width = args.width + args.input_padding if args.input_padding else args.width
     model = make_model(
@@ -72,10 +76,10 @@ def main():
     )
 
     if args.weights:
-        print('Loading weights from {0}'.format(args.weights))
+        print('[INFO] Loading weights from {0}'.format(args.weights))
         model.load_weights(args.weights, by_name=True)
     else:
-        print('No weights passed, training from scratch')
+        print('[INFO] No weights passed, training from scratch')
 
     model.compile(
         loss=make_loss(args.loss_function),
