@@ -1,4 +1,4 @@
-from keras.layers import Dense, GlobalAveragePooling2D, Reshape, Conv2D, Activation
+from keras.layers import Dense, GlobalAveragePooling2D, Reshape, Conv2D, Activation, BatchNormalization
 from keras.layers import multiply, add
 
 
@@ -33,3 +33,28 @@ def scSE_block(input_tensor):
     spatial_se = sSE_block(input_tensor)
 
     return add([channel_se, spatial_se])
+
+def deep_supervision(input_tensor, in_channels, base_name, activation, initializer): #aux3
+
+    conv_a = Conv2D(
+        in_channels, (1, 1),
+        padding='same',
+        activation=activation,
+        name='conv_{0}_a'.format(base_name),
+        kernel_initializer=initializer) (input_tensor)
+    bn_a = BatchNormalization(name='bn_{0}_a'.format(base_name))(conv_a)
+    conv_b = Conv2D(
+        in_channels // 2, (1, 1),
+        padding='same',
+        activation=activation,
+        name='conv_{0}_b'.format(base_name),
+        kernel_initializer=initializer) (bn_a)
+    bn_b = BatchNormalization(name='bn_{0}_b'.format(base_name))(conv_b)
+    conv_score = Conv2D(
+        1, (1, 1),
+        padding='valid',
+        activation='sigmoid',
+        name='conv_{0}_score'.format(base_name),
+        kernel_initializer=initializer) (bn_b)
+
+    return conv_score

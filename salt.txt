@@ -43,12 +43,25 @@
 	З https://github.com/ozan-oktay/Attention-Gated-Networks/blob/master/models/layers/grid_attention_layer.py
 
 * deep supervision (в evernote правило где добавл€ть)
-    https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
-    https://arxiv.org/pdf/1505.02496.pdf
-    https://arxiv.org/pdf/1708.01241.pdf
-    http://www.dgcv.nii.ac.jp/Publications/Papers/2017/BMVC2017.pdf
+    З https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
+    З https://arxiv.org/pdf/1505.02496.pdf
+    З https://arxiv.org/pdf/1708.01241.pdf
+    З http://www.dgcv.nii.ac.jp/Publications/Papers/2017/BMVC2017.pdf
 
-* multitask_learning 2 входа, 2 выхода или как доп классификаци€ или глубина как доп канал
+* hypercolumn
+	https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/64645
+    https://opendatascience.slack.com/archives/CBU0W7318/p1537182266000100
+    https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
+    https://github.com/ozan-oktay/Attention-Gated-Networks/blob/eed71108da598cba69ab4c14dac2fdc0688516c0/models/networks/unet_CT_multi_att_dsv_3D.py#L52
+    https://opendatascience.slack.com/archives/CBU0W7318/p1538053807000100 ------
+
+* multitask_learning:
+    1) дополнительный отдельный классификатор в начале
+    2) 2 выхода: маска и (классификаци€(пустой, вертикальный, full) наличи€ или регресии€ глубины)
+    3) 3 выхода: маска и классификаци€(пустой, вертикальный, full) и сегментаци€
+    4) классификаци€ как gate дл€ сегментации
+    5) deep supervision - experiment on deep supervision, seems working well!
+
  	https://www.kaggle.com/bguberfain/unet-with-depth
 	https://opendatascience.slack.com/archives/CBU0W7318/p1537232652000100
 	https://opendatascience.slack.com/archives/CBU0W7318/p1537472486000100
@@ -64,7 +77,14 @@
 * learning rate:
     https://opendatascience.slack.com/archives/CBU0W7318/p1539127271000100
 
-* без bn в декодере
+* без bn в декодере, активации
+
+* дил€ции в энкодере
+    https://chuckyee.github.io/cardiac-segmentation/
+
+* без вертикальных масок
+
+* аугментации, апсэмплинг или деконв, spatial dropout
 
 * лаваш лосс
 	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
@@ -81,10 +101,6 @@
 	https://www.kaggle.com/meaninglesslives/unet-resnet34-in-keras
 
 	https://github.com/keras-team/keras-applications/releases
-
-* hypercolumn
-	https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/64645
-    https://opendatascience.slack.com/archives/CBU0W7318/p1537182266000100
 
 * удаление мелких точек:
 	https://opendatascience.slack.com/archives/CBU0W7318/p1536225344000100

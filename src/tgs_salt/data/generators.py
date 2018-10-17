@@ -55,6 +55,9 @@ class DataGenerator(Sequence):
             batch_x = self._apply_zca_whitening(batch_x)
 
         batch_x_resized = np.empty((self.batch_size, *self.images_input_shape, self.channels), dtype=np.uint8)
+        batch_aux3_resized = np.empty((self.batch_size, 32, 32, 1), dtype=np.uint8)
+        batch_aux2_resized = np.empty((self.batch_size, 56, 56, 1), dtype=np.uint8)
+        batch_aux1_resized = np.empty((self.batch_size, 104, 104, 1), dtype=np.uint8)
         batch_y_resized = np.empty((self.batch_size, *self.masks_input_shape, 1), dtype=np.uint8)
 
         for i in range(batch_x.shape[0]):
@@ -72,10 +75,15 @@ class DataGenerator(Sequence):
                 batch_x_resized[i, :, :, 0] = image
 
             mask = batch_y[i][..., 0]
-            mask = imresize(mask, self.masks_input_shape, interp='nearest')
-            batch_y_resized[i, :, :, 0] = mask
+            batch_aux3_resized[i, :, :, 0] = imresize(mask, (32, 32), interp='nearest')
+            batch_aux2_resized[i, :, :, 0] = imresize(mask, (56, 56), interp='nearest')
+            batch_aux1_resized[i, :, :, 0] = imresize(mask, (104, 104), interp='nearest')
+            batch_y_resized[i, :, :, 0] = imresize(mask, self.masks_input_shape, interp='nearest')
 
-        return batch_x_resized / 255., batch_y_resized
+        return batch_x_resized / 255., {'conv_aux3_score': batch_aux3_resized,
+                                        'conv_aux2_score': batch_aux2_resized,
+                                        'conv_aux1_score': batch_aux1_resized,
+                                        'conv_u0d-score': batch_y_resized}
 
     def _apply_augmentations(self, batch_x, batch_y):
         image_augmentations = self.augmentations['image_augmentations']
