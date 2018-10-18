@@ -25,7 +25,7 @@ arg('--zca_whitening', type=lambda x: (str(x).lower() == 'true'), default=False)
 arg('--zca_epsilon', type=float, default=10.)
 arg('--cumsum', type=lambda x: (str(x).lower() == 'true'), default=False)
 
-arg('--monitor', default='val_conv_u0d-score_map_at_different_iou') #map_at_different_iou
+arg('--monitor', default='val_conv_u0d-score_map_at_different_iou')
 arg('--monitor_mode', default='max')
 arg('--early_stopping_patience', type=int, default=10)
 

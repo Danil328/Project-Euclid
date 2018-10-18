@@ -43,17 +43,20 @@
 	З https://github.com/ozan-oktay/Attention-Gated-Networks/blob/master/models/layers/grid_attention_layer.py
 
 * deep supervision (в evernote правило где добавл€ть)
-    З https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
+    https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
     З https://arxiv.org/pdf/1505.02496.pdf
     З https://arxiv.org/pdf/1708.01241.pdf
     З http://www.dgcv.nii.ac.jp/Publications/Papers/2017/BMVC2017.pdf
 
 * hypercolumn
 	https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/64645
-    https://opendatascience.slack.com/archives/CBU0W7318/p1537182266000100
-    https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
-    https://github.com/ozan-oktay/Attention-Gated-Networks/blob/eed71108da598cba69ab4c14dac2fdc0688516c0/models/networks/unet_CT_multi_att_dsv_3D.py#L52
-    https://opendatascience.slack.com/archives/CBU0W7318/p1538053807000100 ------
+    З https://opendatascience.slack.com/archives/CBU0W7318/p1537182266000100
+    З https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
+    З https://github.com/ozan-oktay/Attention-Gated-Networks/blob/eed71108da598cba69ab4c14dac2fdc0688516c0/models/networks/unet_CT_multi_att_dsv_3D.py#L52
+    З https://opendatascience.slack.com/archives/CBU0W7318/p1538053807000100 ------
+
+* дил€ции в энкодере
+    З https://chuckyee.github.io/cardiac-segmentation/
 
 * multitask_learning:
     1) дополнительный отдельный классификатор в начале
@@ -65,6 +68,22 @@
  	https://www.kaggle.com/bguberfain/unet-with-depth
 	https://opendatascience.slack.com/archives/CBU0W7318/p1537232652000100
 	https://opendatascience.slack.com/archives/CBU0W7318/p1537472486000100
+
+* лаваш лосс
+	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
+	http://openaccess.thecvf.com/content_cvpr_2018/html/Berman_The_LovaSz-Softmax_Loss_CVPR_2018_paper.html
+	https://arxiv.org/abs/1705.08790
+	http://bmax.im/LovaszSoftmax
+	сначала юзать bce потом лаваш
+	https://opendatascience.slack.com/archives/CBU0W7318/p1536827660000100
+	https://www.kaggle.com/alexanderliao/u-net-bn-aug-strat-focal-loss-fixed
+
+* архитектуры vanilla unet, resnet34 unet
+    https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/64645
+	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
+	https://www.kaggle.com/meaninglesslives/using-resnet50-pretrained-model-in-keras
+	https://www.kaggle.com/meaninglesslives/unet-resnet34-in-keras
+	https://github.com/keras-team/keras-applications/releases
 
 * что-то делать с false positives
 
@@ -79,28 +98,9 @@
 
 * без bn в декодере, активации
 
-* дил€ции в энкодере
-    https://chuckyee.github.io/cardiac-segmentation/
-
 * без вертикальных масок
 
 * аугментации, апсэмплинг или деконв, spatial dropout
-
-* лаваш лосс
-	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks
-	http://openaccess.thecvf.com/content_cvpr_2018/html/Berman_The_LovaSz-Softmax_Loss_CVPR_2018_paper.html
-	https://arxiv.org/abs/1705.08790
-	http://bmax.im/LovaszSoftmax
-	сначала юзать bce потом лаваш
-	https://opendatascience.slack.com/archives/CBU0W7318/p1536827660000100
-	https://www.kaggle.com/alexanderliao/u-net-bn-aug-strat-focal-loss-fixed
-
-* архитектуры vanilla unet, resnet34 unet
-	https://www.kaggle.com/deepaksinghrawat/introduction-to-u-net-with-simple-resnet-blocks	
-	https://www.kaggle.com/meaninglesslives/using-resnet50-pretrained-model-in-keras
-	https://www.kaggle.com/meaninglesslives/unet-resnet34-in-keras
-
-	https://github.com/keras-team/keras-applications/releases
 
 * удаление мелких точек:
 	https://opendatascience.slack.com/archives/CBU0W7318/p1536225344000100
@@ -117,7 +117,6 @@
 
 * тта
 
-
 https://opendatascience.slack.com/archives/CBU0W7318/p1537195790000100
 https://opendatascience.slack.com/archives/CBU0W7318/p1532352206000505
 https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/61949
@@ -127,3 +126,10 @@ https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/66568
 https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/66686
 https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/64776#387317
 https://www.kaggle.com/c/tgs-salt-identification-challenge/discussion/65933
+
+
+
+
+
+Direct Loss Minimization for Average Precision https://arxiv.org/pdf/1511.06411.pdf
+fpn for semantic seg http://presentations.cocodataset.org/COCO17-Stuff-FAIR.pdf
