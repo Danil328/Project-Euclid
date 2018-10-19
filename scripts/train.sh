@@ -3,16 +3,14 @@ cd ../src/tgs_salt/
 
 python train.py \
 --network vanilla_unet \
---alias \
 --test_mode True \
 --valid_fold 1 \
 --n_folds 6 \
 --stratified_by all \
 --random_state 17 \
---weights \
 --height 100 \
 --width 100 \
---channels default=3 \
+--channels 3 \
 --input_padding 184 \
 --batch_size 12 \
 --loss_function focal_dice_loss \

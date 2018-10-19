@@ -4,7 +4,7 @@ parser = argparse.ArgumentParser()
 arg = parser.add_argument
 
 arg('--network', default='vanilla_unet')
-arg('--alias', default='')
+arg('--alias', default='dice02')
 arg('--test_mode', type=lambda x: (str(x).lower() == 'true'), default=True)
 arg('--valid_fold', type=int, default=1)
 arg('--n_folds', type=int, default=6)

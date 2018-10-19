@@ -61,7 +61,7 @@ def make_loss(loss_name):
         return bce_jaccard_loss
 
     elif loss_name == 'focal_dice_loss':
-        def focal_dice_loss(y_true, y_pred, dice=0.5, focal=0.5):
+        def focal_dice_loss(y_true, y_pred, dice=0.2, focal=0.8):
             return focal * focal_loss(y_true, y_pred) + dice * dice_loss(y_true, y_pred)
 
         return focal_dice_loss
