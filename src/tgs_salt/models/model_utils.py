@@ -57,9 +57,9 @@ def deep_supervision(input_tensor, in_channels, base_name, activation, initializ
         name='conv_{0}_c'.format(base_name),
         kernel_initializer=initializer) (bn_b)
 
-    # conv_score = Activation('sigmoid', name='conv_{0}_score'.format(base_name)) (conv_c)
+    conv_score = Activation('sigmoid', name='conv_{0}_score'.format(base_name)) (conv_c)
 
-    return conv_c
+    return conv_score
 
 
 def hypercolumn(last_layer, *args):

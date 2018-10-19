@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 cd ../src/tgs_salt/
 
-python train.py #\
+python train.py \
 --network vanilla_unet \
 --alias \
 --test_mode True \
@@ -15,7 +15,7 @@ python train.py #\
 --channels default=3 \
 --input_padding 184 \
 --batch_size 12 \
---loss_function focal_loss \
+--loss_function focal_dice_loss \
 --optimizer rmsprop \
 --learning_rate .001 \
 --decay .001 \
@@ -25,4 +25,4 @@ python train.py #\
 --cumsum False \
 --monitor val_conv_u0d-score_map_at_different_iou \
 --monitor_mode max \
---early_stopping_patience 10 \
+--early_stopping_patience 10
