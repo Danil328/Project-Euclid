@@ -108,9 +108,9 @@ def vanilla_unet(input_shape, random_state):
     bn_24             = BatchNormalization(name='bn_24') (conv_u0c_d)
 
     # hypercolumn
-    bn_25             = Conv2D(64, (3, 3), padding='same', activation=activation, name='bn_25', kernel_initializer=initializer) (bn_15)
+    bn_25             = Conv2D(64, (1, 1), padding='same', activation=activation, name='bn_25', kernel_initializer=initializer) (bn_15)
     bn_26             = BatchNormalization(name='bn_26') (bn_25)
-    bn_27             = Conv2D(64, (3, 3), padding='same', activation=activation, name='bn_27', kernel_initializer=initializer) (bn_18)
+    bn_27             = Conv2D(64, (1, 1), padding='same', activation=activation, name='bn_27', kernel_initializer=initializer) (bn_18)
     bn_28             = BatchNormalization(name='bn_28') (bn_27)
     bn_29             = Conv2D(64, (1, 1), padding='same', activation=activation, name='bn_29', kernel_initializer=initializer) (bn_21)
     bn_30             = BatchNormalization(name='bn_30') (bn_29)
